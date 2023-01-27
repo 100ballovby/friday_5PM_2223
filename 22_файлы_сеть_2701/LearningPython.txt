@@ -1,0 +1,3 @@
+In Python you can concatenate lists
+In Python you can concatenate strings
+In Python you can sorting array
