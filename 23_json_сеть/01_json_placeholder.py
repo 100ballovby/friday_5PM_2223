@@ -45,4 +45,3 @@ for user in con_2:  # перебираю каждого пользователя
     users[user["id"]] = user["name"]  # создать ключ с id пользователя, а значением поставить name
 print(users)
 
-"https://t.me/python_fri_gr"
