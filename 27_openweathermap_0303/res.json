@@ -1,0 +1,46 @@
+{
+  "coord": {
+    "lon": 27.5667,
+    "lat": 53.9
+  },
+  "weather": [
+    {
+      "id": 804,
+      "main": "Clouds",
+      "description": "пасмурно",  // ['weather'][0]['description']
+      "icon": "04d"
+    }
+  ],
+  "base": "stations",
+  "main": {
+    "temp": 0.86,  // ['main']['temp']
+    "feels_like": -3.91,  // ['main']['feels_like']
+    "temp_min": 0.86,  // ['main']['temp_min']
+    "temp_max": 0.86,
+    "pressure": 1009,
+    "humidity": 83,
+    "sea_level": 1009,
+    "grnd_level": 982
+  },
+  "visibility": 10000,
+  "wind": {
+    "speed": 5.12,
+    "deg": 290,
+    "gust": 10.96
+  },
+  "clouds": {
+    "all": 97
+  },
+  "dt": 1677854409,
+  "sys": {
+    "type": 1,
+    "id": 8939,
+    "country": "BY",
+    "sunrise": 1677819287,
+    "sunset": 1677858546
+  },
+  "timezone": 10800,
+  "id": 625144,
+  "name": "Минск",
+  "cod": 200
+}
