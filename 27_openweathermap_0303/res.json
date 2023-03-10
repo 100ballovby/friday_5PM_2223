@@ -15,7 +15,8 @@
   "main": {
     "temp": 0.86,  // ['main']['temp']
     "feels_like": -3.91,  // ['main']['feels_like']
-    "temp_min": 0.86,  // ['main']['temp_min']
+
+    n": 0.86,  // ['main']['temp_min']
     "temp_max": 0.86,
     "pressure": 1009,
     "humidity": 83,
