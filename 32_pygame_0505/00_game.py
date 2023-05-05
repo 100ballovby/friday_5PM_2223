@@ -1,5 +1,6 @@
 import sys
 import pygame as pg
+import random
 
 WIN_WIDTH = 1280
 WIN_HEIGHT = 720
@@ -21,12 +22,17 @@ while True:  # цикл игры
         if event.type == pg.QUIT:
             pg.quit()
             sys.exit()
-        if event.type == pg.MOUSEBUTTONDOWN:
-            if event.button == 1:  # левая кнопка мыши
-                pg.draw.circle(screen, ORANGE, event.pos, 20)
-            elif event.button == 3:  # правая кнопка мыши
-                pg.draw.rect(screen, BLUE, event.pos, 20)
 
+    pressed = pg.mouse.get_pressed()  # определяет, какая клавиша мыши была нажата
+    pos = pg.mouse.get_pos()  # определяет позицию мыши в реальном времени
+    if pressed[0]:  # левая кнопка мыши
+        pg.draw.circle(screen, (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255) ), pos, 20)
+    elif pressed[2]:  # правая кнопка мыши
+        pg.draw.circle(screen, BLUE, pos, 20)
+        pg.draw.rect(screen, GREEN, (pos[0] - 10, pos[1] - 10, 20, 20))
+    elif pressed[1]:  # нажато колесо мыши
+        screen.fill(WHITE)
+    pg.display.update()
 
 
 
