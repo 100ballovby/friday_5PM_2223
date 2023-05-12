@@ -30,22 +30,22 @@ while True:  # цикл игры
         if event.type == pg.MOUSEBUTTONUP:
             moving = False
         if event.type == pg.MOUSEMOTION and moving:  # если мышку двигают и картинке можно перемещаться
-            img_rect.move_ip(event.rel)  # двигаем картинку за мышкой
+            img_rect1.move_ip(event.rel)  # двигаем картинку за мышкой
         if event.type == pg.KEYDOWN:
             if event.key == pg.K_r:
-                if event.mod and pg.KMOD_SHIFT:
+                if event.mod & pg.KMOD_SHIFT:
                     angle -= 10
                 else:
                     angle += 10
                 img1 = pg.transform.rotozoom(img, angle, scale)
             if event.key == pg.K_s:
-                if event.mod and pg.KMOD_SHIFT:
+                if event.mod & pg.KMOD_SHIFT:
                     scale /= 1.1
                 else:
                     scale *= 1.1
                 img1 = pg.transform.rotozoom(img, angle, scale)
-            rect1 = img1.get_rect()
-            rect1.center = WIN_WIDTH // 2, WIN_HEIGHT // 2
+            img_rect1 = img1.get_rect()
+            img_rect1.center = WIN_WIDTH // 2, WIN_HEIGHT // 2
 
     screen.fill((63, 63, 63))
     screen.blit(img1, img_rect1)
