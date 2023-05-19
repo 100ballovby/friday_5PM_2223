@@ -24,6 +24,18 @@ def player_motion(speed, pl):
         pl.bottom = H
 
 
+def opponent_motion(speed, op, ball):
+    if op.top < ball.y:
+        op.y += speed
+    elif op.bottom > ball.y:
+        op.y -= speed
+
+    if op.top <= 0:
+        op.top = 0
+    elif op.bottom >= H:
+        op.bottom = H
+
+
 W = 1280
 H = 720
 
@@ -43,7 +55,7 @@ ball = pg.Rect(W // 2 - 15, H // 2 - 15, 30, 30)
 
 # переменные для игры
 p_speed = 0
-o_speed = 0
+o_speed = 5
 ball_moving = False
 speed_x = 7
 speed_y = 7
@@ -76,3 +88,4 @@ while not finished:  # цикл игры
     # логика игры
     ball_move(ball)
     player_motion(p_speed, player)
+    opponent_motion(o_speed, opponent, ball)
