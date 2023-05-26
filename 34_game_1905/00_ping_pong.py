@@ -1,16 +1,29 @@
 import sys
 import pygame as pg
+from random import choice
+
+
+def ball_start(obj):
+    global speed_x, speed_y
+
+    obj.center = (W // 2, H // 2)  # помещаю объект посередине
+    speed_x *= choice([-1, 1])
+    speed_y *= choice([-1, 1])
 
 
 def ball_move(ball):
-    global speed_x, speed_y
+    global speed_x, speed_y, player_score, opponent_score
     ball.x += speed_x
     ball.y += speed_y
 
     if ball.top <= 0 or ball.bottom >= H:  # если мяч ударился об верхнюю или нижнюю границу экрана
         speed_y *= -1  # развернуть его в обратную сторону
-    elif ball.left <= 0 or ball.right >= W:
-        speed_x *= -1
+    elif ball.left <= 0:
+        ball_start(ball)
+        player_score += 1  # засчитываем очки игроку
+    elif ball.right >= W:
+        ball_start(ball)
+        opponent_score += 1  # засчитываем очки оппоненту
     elif ball.colliderect(player) or ball.colliderect(opponent):
         speed_x *= -1
         
@@ -57,8 +70,14 @@ ball = pg.Rect(W // 2 - 15, H // 2 - 15, 30, 30)
 p_speed = 0
 o_speed = 5
 ball_moving = False
-speed_x = 7
-speed_y = 7
+speed_x = 7 * choice([-1, 1])
+speed_y = 7 * choice([-1, 1])
+
+# scores
+player_score = 0
+opponent_score = 0
+pg.font.init()
+my_font = pg.font.SysFont('comicsans', 64)
 
 finished = False
 while not finished:  # цикл игры
@@ -74,6 +93,12 @@ while not finished:  # цикл игры
     pg.draw.rect(screen, GREEN, player)
     pg.draw.rect(screen, GREEN, opponent)
     pg.draw.ellipse(screen, GREEN, ball)
+
+    player_score_text = my_font.render(f'{player_score}', True, GREEN)  # добавляем текст на экран
+    screen.blit(player_score_text, [W // 2 + 50, H // 2.5])
+
+    opponent_score_text = my_font.render(f'{opponent_score}', True, GREEN)  # добавляем текст на экран
+    screen.blit(opponent_score_text, [W // 2 - 90, H // 2.5])
 
     keys = pg.key.get_pressed()
     if keys[pg.K_UP]:
