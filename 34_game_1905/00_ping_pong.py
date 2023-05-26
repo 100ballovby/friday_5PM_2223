@@ -34,19 +34,24 @@ def ball_move(ball):
 
     if ball.top <= 0 or ball.bottom >= H:  # если мяч ударился об верхнюю или нижнюю границу экрана
         speed_y *= -1  # развернуть его в обратную сторону
+        pg.mixer.Sound.play(pong_sound)
     elif ball.left <= 0:
+        pg.mixer.Sound.play(score_sound)
         score_time = pg.time.get_ticks()
         player_score += 1  # засчитываем очки игроку
     elif ball.right >= W:
+        pg.mixer.Sound.play(score_sound)
         score_time = pg.time.get_ticks()
         opponent_score += 1  # засчитываем очки оппоненту
 
     if ball.colliderect(player):
+        pg.mixer.Sound.play(pong_sound)
         if abs(ball.right - player.left) < 10:
             speed_x *= -1
         elif abs(ball.bottom - player.top) < 10 or abs(ball.top - player.bottom) < 10:
             speed_x *= -1
     elif ball.colliderect(opponent):
+        pg.mixer.Sound.play(pong_sound)
         if abs(ball.left - opponent.right) < 10:
             speed_x *= -1
         elif abs(ball.bottom - opponent.top) < 10 or abs(ball.top - opponent.bottom) < 10:
@@ -98,6 +103,11 @@ ball_moving = False
 score_time = True
 speed_x = 7 * choice([-1, 1])
 speed_y = 7 * choice([-1, 1])
+pg.mixer.init()
+pong_sound = pg.mixer.Sound('hit.mp3')
+score_sound = pg.mixer.Sound('lose.wav')
+pong_sound.set_volume(0.2)
+score_sound.set_volume(0.1)
 
 # scores
 player_score = 0
