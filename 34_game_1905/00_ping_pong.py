@@ -4,28 +4,53 @@ from random import choice
 
 
 def ball_start(obj):
-    global speed_x, speed_y
+    global speed_x, speed_y, ball_moving, score_time
 
     obj.center = (W // 2, H // 2)  # помещаю объект посередине
-    speed_x *= choice([-1, 1])
-    speed_y *= choice([-1, 1])
+    cur_time = pg.time.get_ticks()  # фиксирует текущее время в игре
+
+    if cur_time - score_time < 700:
+        num_3 = my_font.render('3', True, GREEN)
+        screen.blit(num_3, [W // 2, H // 2])
+    elif 700 < cur_time - score_time < 1400:
+        num_2 = my_font.render('2', True, GREEN)
+        screen.blit(num_2, [W // 2, H // 2])
+    elif 1400 < cur_time - score_time < 2100:
+        num_1 = my_font.render('1', True, GREEN)
+        screen.blit(num_1, [W // 2, H // 2])
+
+    if cur_time - score_time < 2100:  # пока не прошло 3 секунды
+        speed_x, speed_y = 0, 0  # мяч стоит на месте
+    else:
+        speed_x = 7 * choice([-1, 1])
+        speed_y = 7 * choice([-1, 1])
+        score_time = None  # отключаем подсчет времени
 
 
 def ball_move(ball):
-    global speed_x, speed_y, player_score, opponent_score
+    global speed_x, speed_y, player_score, opponent_score, score_time
     ball.x += speed_x
     ball.y += speed_y
 
     if ball.top <= 0 or ball.bottom >= H:  # если мяч ударился об верхнюю или нижнюю границу экрана
         speed_y *= -1  # развернуть его в обратную сторону
     elif ball.left <= 0:
-        ball_start(ball)
+        score_time = pg.time.get_ticks()
         player_score += 1  # засчитываем очки игроку
     elif ball.right >= W:
-        ball_start(ball)
+        score_time = pg.time.get_ticks()
         opponent_score += 1  # засчитываем очки оппоненту
-    elif ball.colliderect(player) or ball.colliderect(opponent):
-        speed_x *= -1
+
+    if ball.colliderect(player):
+        if abs(ball.right - player.left) < 10:
+            speed_x *= -1
+        elif abs(ball.bottom - player.top) < 10 or abs(ball.top - player.bottom) < 10:
+            speed_x *= -1
+    elif ball.colliderect(opponent):
+        if abs(ball.left - opponent.right) < 10:
+            speed_x *= -1
+        elif abs(ball.bottom - opponent.top) < 10 or abs(ball.top - opponent.bottom) < 10:
+            speed_x *= -1
         
         
 def player_motion(speed, pl):
@@ -70,6 +95,7 @@ ball = pg.Rect(W // 2 - 15, H // 2 - 15, 30, 30)
 p_speed = 0
 o_speed = 5
 ball_moving = False
+score_time = True
 speed_x = 7 * choice([-1, 1])
 speed_y = 7 * choice([-1, 1])
 
@@ -108,6 +134,8 @@ while not finished:  # цикл игры
     else:
         p_speed = 0
 
+    if score_time:  # если время начинает считаться
+        ball_start(ball)  # делаем "рестарт"
     pg.display.update()
 
     # логика игры
