@@ -92,9 +92,16 @@ clock = pg.time.Clock()
 FPS = 60
 
 # игровые сущности
-player = pg.Rect(W - 20, H // 2, 10, 150)
-opponent = pg.Rect(10,  H // 2, 10, 150)
-ball = pg.Rect(W // 2 - 15, H // 2 - 15, 30, 30)
+ball_img = pg.image.load('tennis.png').convert_alpha()
+ball_img = pg.transform.scale(ball_img, (50, 50))
+
+player_img = pg.image.load('paddle.jpg').convert()
+opponent_img = pg.image.load('paddle.jpg').convert()
+
+player = player_img.get_rect()
+opponent = opponent_img.get_rect()
+ball = ball_img.get_rect()
+player.x, player.y = W - 30, H // 2
 
 # переменные для игры
 p_speed = 0
@@ -126,9 +133,9 @@ while not finished:  # цикл игры
     # отображение игровых объектов
     screen.fill(GRAY)
     pg.draw.aaline(screen, WHITE, [W // 2, 0], [W // 2, H])
-    pg.draw.rect(screen, GREEN, player)
-    pg.draw.rect(screen, GREEN, opponent)
-    pg.draw.ellipse(screen, GREEN, ball)
+    screen.blit(ball_img, ball)
+    screen.blit(player_img, player)
+    screen.blit(opponent_img, opponent)
 
     player_score_text = my_font.render(f'{player_score}', True, GREEN)  # добавляем текст на экран
     screen.blit(player_score_text, [W // 2 + 50, H // 2.5])
